@@ -17,7 +17,7 @@ class DetailActivity : AppCompatActivity() {
         val overview = intent.getStringExtra("overview")
 
         Picasso.with(applicationContext)
-                .load(Helper.IMAGE_URL_POSTER + image)
+                .load(Helper.IMAGE_URL_BACKDROP + image)
                 .placeholder(R.mipmap.ic_launcher)
                 .into(imgDetail)
         setTitle(title)
