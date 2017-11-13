@@ -21,7 +21,9 @@
     <activity
       android:label="@string/title_activity_detail"
       android:name=".DetailActivity"
-      android:theme="@style/AppTheme.NoActionBar"></activity>
+      android:theme="@style/AppTheme.NoActionBar" />
+    <activity android:name=".CobaActivity">
+    </activity>
   </application>
 
 </manifest>

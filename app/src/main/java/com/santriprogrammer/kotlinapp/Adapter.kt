@@ -2,6 +2,7 @@ package com.santriprogrammer.kotlinapp
 
 import android.content.Context
 import android.content.Intent
+import android.media.Image
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -29,24 +30,24 @@ class Adapter : RecyclerView.Adapter<Adapter.ViewHolder> {
         this.c = list_data
     }
 
-    override fun onBindViewHolder(holder: Adapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: Adapter.ViewHolder?, position: Int) {
         val data: gsonMovie.ResultsBean = list_data!!.get(position)
         Picasso.with(c)
                 .load(Helper.IMAGE_URL_POSTER + data.poster_path)
                 .placeholder(R.mipmap.ic_launcher)
-                .into(holder!!.imgItem)
-        holder!!.txtTitle?.setText(data.title)
-        holder!!.txt_vote?.setText(data.vote_average.toString())
-        holder!!.rb_list?.rating = data.vote_count.toFloat() / 2
+                .into(holder?.imgItem)
+        holder?.txtTitle?.text = data.original_title
+        holder?.txt_vote?.text = data.vote_average.toString()
+        holder?.rb_list?.rating = data.vote_count.toFloat() / 2
 
-        holder!!.consItem?.setOnClickListener({
+        holder?.consItem?.setOnClickListener({
             var intent = Intent(c?.applicationContext, DetailActivity::class.java)
             intent.putExtra("title", data.original_title)
             intent.putExtra("image", data.poster_path)
             intent.putExtra("overview", data.overview)
-            c!!.startActivity(intent)
+            c?.startActivity(intent)
         })
-        setAnimation(holder.itemView, position)
+        setAnimation(holder!!.itemView, position)
     }
     private fun setAnimation(viewToAnimate: View, position: Int) {
         if (position > lastPosition) {
@@ -57,13 +58,13 @@ class Adapter : RecyclerView.Adapter<Adapter.ViewHolder> {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(c).inflate(R.layout.list_item, parent, false)
+        var inflater = LayoutInflater.from(c).inflate(R.layout.list_item, parent, false)
 
         return ViewHolder(inflater)
     }
 
     override fun getItemCount(): Int {
-        return list_data!!.size
+        return list_data?.size!!
     }
 
 

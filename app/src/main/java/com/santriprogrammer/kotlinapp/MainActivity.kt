@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -29,22 +30,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun getData() {
         val reqMain: RequestQueue = Volley.newRequestQueue(applicationContext)
-        val strReqMain = StringRequest(Request.Method.GET, Helper.BASE_URL, Listener<String> { response ->
+        val strReqMain: StringRequest? = StringRequest(Request.Method.GET, Helper.BASE_URL, Listener<String> { response ->
             Log.i("response", response)
             var gsonBuilder = GsonBuilder()
             var gson: Gson = gsonBuilder.create()
 
             nowPlayingGson = gson.fromJson(response, gsonMovie::class.java)
 
-            val adapter = Adapter(this, nowPlayingGson!!.getResults())
+            val adapter = Adapter(this, nowPlayingGson?.getResults())
             recyclerNowPlaying.adapter = adapter
             if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                recyclerNowPlaying.setLayoutManager(GridLayoutManager(this, 2))
+                recyclerNowPlaying.layoutManager = GridLayoutManager(this@MainActivity, 2)
             } else {
-                recyclerNowPlaying.setLayoutManager(LinearLayoutManager(this))
+                recyclerNowPlaying.layoutManager = LinearLayoutManager(this@MainActivity)
             }
         }, Response.ErrorListener {
-            error -> Log.e("NowPlayingFragment", error.toString()) })
+
+        })
         reqMain.add<String>(strReqMain)
     }
 }
